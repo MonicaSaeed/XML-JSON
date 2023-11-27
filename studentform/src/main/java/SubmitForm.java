@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,19 @@ public class SubmitForm extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No student data received");
             return;
         }
+
+        //////////////////////////
+        // check if student ids is unique if not retuen to form page with error message
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int i = 1; i <= numberOfStudents; i++) {
+            String idString = request.getParameter("id" + i);
+            if (idList.contains(idString)) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Student ID must be unique");
+                return;
+            }
+            idList.add(idString);
+        }
+        //////////////////////////
 
         // build XML file
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

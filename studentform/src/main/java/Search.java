@@ -84,6 +84,9 @@ public class Search extends HttpServlet {
             for (Student student : searchResults) {
                 out.println("<tr>");
                 out.println("<td>" + student.ID + "</td>");
+                // make avaliable to click on the first name to edit the student first name
+                // out.println("<td><a href=\"edit?ID=" + student.ID + "\">" + student.firstName
+                // + "</a></td>");
                 out.println("<td>" + student.firstName + "</td>");
                 out.println("<td>" + student.lastName + "</td>");
                 out.println("<td>" + student.gender + "</td>");

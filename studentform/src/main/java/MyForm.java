@@ -47,15 +47,18 @@ public class MyForm extends HttpServlet {
         for (int i = 1; i <= numberOfStudents; i++) {
             out.println("<p>Student " + i + ":</p>");
             // get input for id
-            out.println("ID: <input type='number' name='id" + i + "' required><br>");
-            out.println("First Name: <input type='text' name='firstname" + i + "' required><br>");
-            out.println("Last Name: <input type='text' name='lastname" + i + "' required><br>");
+            out.println("ID: <input type='text' name='id" + i + "' required><br>");
+            // get input for first name is characters (a-z) only
+            out.println("First Name: <input type='text' name='firstname" + i + "' pattern='[a-zA-Z]+' required><br>");
+            // get input for last name is characters (a-z) only
+            out.println("Last Name: <input type='text' name='lastname" + i + "' pattern='[a-zA-Z]+' required><br>");
             out.println("Gender: <input type='text' name='gender" + i + "' required><br>");
             // get input for gpa with constraints <= 0 and >= 4 (float)
             out.println("GPA: <input type='number' name='gpa" + i + "' min='0' max='4' step='0.01' required><br>");
             // get input for level with constraints >= 1 and <= 4
             out.println("Level: <input type='number' name='level" + i + "' min='1' max='4' required><br>");
-            out.println("Address: <input type='text' name='address" + i + "' required><br>");
+            // get input for address with characters (a-z) only
+            out.println("Address: <input type='text' name='address" + i + "' pattern='[a-zA-Z]+' required><br>");
             out.println("");
         }
         out.println("<input type='submit' value='Submit'>");

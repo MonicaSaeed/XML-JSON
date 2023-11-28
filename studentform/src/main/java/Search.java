@@ -33,8 +33,14 @@ public class Search extends HttpServlet {
         out.println("<form action=\"search\" method=\"post\">");
         out.println("<label for=\"searchType\">Search Type:</label>");
         out.println("<select name=\"searchType\" id=\"searchType\">");
+        out.println("<option value=\"ID\">id</option>");
         out.println("<option value=\"FirstName\">First Name</option>");
+        out.println("<option value=\"LastName\">Last Name</option>");
+        out.println("<option value=\"Gender\">Gender</option>");
         out.println("<option value=\"GPA\">GPA</option>");
+        out.println("<option value=\"Level\">Level</option>");
+        out.println("<option value=\"Address\">Address</option>");
+
         out.println("</select>");
         out.println("<br>");
         out.println("<label for=\"searchTerm\">Search Term:</label>");
@@ -139,20 +145,35 @@ public class Search extends HttpServlet {
                     Element studentElement = (Element) studentNode;
 
                     // Retrieve values from XML
+
+                    String id = studentElement.getAttribute("ID");
                     String firstName = studentElement.getElementsByTagName("firstName").item(0).getTextContent();
+                    String lastName = studentElement.getElementsByTagName("lastName").item(0).getTextContent();
+                    String gender = studentElement.getElementsByTagName("Gender").item(0).getTextContent();
+                    String level = studentElement.getElementsByTagName("level").item(0).getTextContent();
+                    String address = studentElement.getElementsByTagName("address").item(0).getTextContent();
                     String gpa = studentElement.getElementsByTagName("gpa").item(0).getTextContent();
 
                     // Perform the search based on the specified criteria
-                    if (("FirstName".equalsIgnoreCase(searchType) && firstName.contains(searchTerm))
-                            || ("GPA".equalsIgnoreCase(searchType) && gpa.equals(searchTerm))) {
-                        // If the search criteria match, create a Student object and add it to the
-                        // results
-                        String id = studentElement.getAttribute("ID");
-                        String lastName = studentElement.getElementsByTagName("lastName").item(0).getTextContent();
-                        String gender = studentElement.getElementsByTagName("Gender").item(0).getTextContent();
-                        String level = studentElement.getElementsByTagName("level").item(0).getTextContent();
-                        String address = studentElement.getElementsByTagName("address").item(0).getTextContent();
-
+                    if (("FirstName".equalsIgnoreCase(searchType) && firstName.contains(searchTerm))) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("GPA".equalsIgnoreCase(searchType) && gpa.equals(searchTerm))) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("LastName").equalsIgnoreCase(searchType) && lastName.contains(searchTerm)) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("Gender").equalsIgnoreCase(searchType) && gender.contains(searchTerm)) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("Level").equalsIgnoreCase(searchType) && level.contains(searchTerm)) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("Address").equalsIgnoreCase(searchType) && address.contains(searchTerm)) {
+                        Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
+                        searchResults.add(student);
+                    } else if (("ID").equalsIgnoreCase(searchType) && id.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
                     }

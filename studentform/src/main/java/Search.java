@@ -30,23 +30,23 @@ public class Search extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
         out.println("<h2>Search Form</h2>");
-        out.println("<form action=\"search\" method=\"post\">");
-        out.println("<label for=\"searchType\">Search Type:</label>");
-        out.println("<select name=\"searchType\" id=\"searchType\">");
-        out.println("<option value=\"ID\">id</option>");
-        out.println("<option value=\"FirstName\">First Name</option>");
-        out.println("<option value=\"LastName\">Last Name</option>");
-        out.println("<option value=\"Gender\">Gender</option>");
-        out.println("<option value=\"GPA\">GPA</option>");
-        out.println("<option value=\"Level\">Level</option>");
-        out.println("<option value=\"Address\">Address</option>");
+        out.println("<form action='search' method='post'>");
+        out.println("<label for='searchType'>Search Type:</label>");
+        out.println("<select name='searchType' id='searchType'>");
+        out.println("<option value='ID'>id</option>");
+        out.println("<option value='FirstName'>First Name</option>");
+        out.println("<option value='LastName'>Last Name</option>");
+        out.println("<option value='Gender'>Gender</option>");
+        out.println("<option value='GPA'>GPA</option>");
+        out.println("<option value='Level'>Level</option>");
+        out.println("<option value='Address'>Address</option>");
 
         out.println("</select>");
         out.println("<br>");
-        out.println("<label for=\"searchTerm\">Search Term:</label>");
-        out.println("<input type=\"text\" name=\"searchTerm\" id=\"searchTerm\" required>");
+        out.println("<label for='searchTerm'>Search Term:</label>");
+        out.println("<input type='text' name='searchTerm' id='searchTerm' required>");
         out.println("<br>");
-        out.println("<input type=\"submit\" value=\"Search\">");
+        out.println("<input type='submit' value='Search'>");
         out.println("</form>");
         out.println("</body>");
         out.println("</html>");
@@ -76,7 +76,7 @@ public class Search extends HttpServlet {
         if (searchResults.isEmpty()) {
             out.println("<p>No results found for the specified criteria.</p>");
         } else {
-            out.println("<table border=\"1\">");
+            out.println("<table border='1'>");
             out.println("<tr>");
             out.println("<th>ID</th>");
             out.println("<th>First Name</th>");
@@ -88,28 +88,34 @@ public class Search extends HttpServlet {
             out.println("</tr>");
 
             for (Student student : searchResults) {
+                out.println("<form method='post' action='edit'>");
                 out.println("<tr>");
                 out.println("<td>" + student.ID + "</td>");
                 // make avaliable to click on the first name to edit the student first name
-                // out.println("<td><a href=\"edit?ID=" + student.ID + "\">" + student.firstName
+                // out.println("<td><a href='edit?ID=" + student.ID + "'>" + student.firstName
                 // + "</a></td>");
-                out.println("<td>" + student.firstName + "</td>");
-                out.println("<td>" + student.lastName + "</td>");
-                out.println("<td>" + student.gender + "</td>");
-                out.println("<td>" + student.GPA + "</td>");
-                out.println("<td>" + student.level + "</td>");
-                out.println("<td>" + student.address + "</td>");
+                out.println("<input type='hidden' name='id' value='" + student.ID + "'>");
+                out.println(
+                        "<td><input type='text' name='firstname' value ='" + student.firstName + "' required></td>");
+                out.println("<td><input type='text' name='lastname' value ='" + student.lastName + "' required></td>");
+                out.println("<td><input type='text' name='gender' value ='" + student.gender + "' required></td>");
+                out.println("<td><input type='text' name='gpa' value ='" + student.GPA + "' required></td>");
+                out.println("<td><input type='text' name='level' value ='" + student.level + "' required></td>");
+                out.println("<td><input type='text' name='address' value ='" + student.address + "' required></td>");
 
                 // Add a delete button for each row
                 out.println("<td>");
-                out.println("<form action=\"delete\" method=\"post\">");
+                out.println("<input type='submit' value='Edit'>");
+                out.println("<form action='delete' method='post'>");
                 // hidden input to store the ID of the student to delete
-                out.println("<input type=\"hidden\" name=\"id\" value=\"" + student.ID + "\">");
-                out.println("<input type=\"submit\" value=\"Delete\">");
+                out.println("<input type='hidden' name='id' value='" + student.ID + "'>");
+                out.println("<input type='submit' value='Delete'>");
                 out.println("</form>");
                 out.println("</td>");
 
                 out.println("</tr>");
+
+                out.println("</form>");
             }
 
             out.println("</table>");

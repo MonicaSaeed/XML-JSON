@@ -13,7 +13,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
+import org.w3c.dom.Document; // Add this line
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -89,6 +89,10 @@ public class SubmitForm extends HttpServlet {
 
             // Redirect to another page after processing
             response.sendRedirect("/studentform/search");
+
+            // Sort and save the XML
+            ArrayList<Element> sortedElements = XmlSorter.sortElementsByAttribute(doc, "ID", false);
+            XmlSorter.saveSortedXml(sortedElements, "data/SortedStudents.xml");
 
         } catch (Exception e) {
             e.printStackTrace();

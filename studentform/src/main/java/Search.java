@@ -91,7 +91,6 @@ public class Search extends HttpServlet {
                 out.println("<form method='post' action='edit'>");
                 out.println("<tr>");
                 out.println("<td>" + student.ID + "</td>");
-                // make avaliable to click on the first name to edit the student first name
                 // out.println("<td><a href='edit?ID=" + student.ID + "'>" + student.firstName
                 // + "</a></td>");
                 out.println("<input type='hidden' name='id' value='" + student.ID + "'>");

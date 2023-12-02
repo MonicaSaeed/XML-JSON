@@ -93,6 +93,7 @@ public class SubmitForm extends HttpServlet {
             // Sort and save the XML
             ArrayList<Element> sortedElements = XmlSorter.sortElementsByAttribute(doc, "ID", false);
             XmlSorter.saveSortedXml(sortedElements, "data/SortedStudents.xml");
+            XmlSorter.saveSortedXml(sortedElements, "data/Students.xml");
 
         } catch (Exception e) {
             e.printStackTrace();

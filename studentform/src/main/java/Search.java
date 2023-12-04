@@ -102,14 +102,9 @@ public class Search extends HttpServlet {
                 out.println("<td><input type='text' name='level' value ='" + student.level + "' required></td>");
                 out.println("<td><input type='text' name='address' value ='" + student.address + "' required></td>");
 
-                // Add a delete button for each row
                 out.println("<td>");
                 out.println("<input type='submit' value='Edit'>");
-                out.println("<form action='delete' method='post'>");
-                // hidden input to store the ID of the student to delete
-                out.println("<input type='hidden' name='id' value='" + student.ID + "'>");
-                out.println("<input type='submit' value='Delete'>");
-                out.println("</form>");
+                out.println("<input type='submit' formaction='delete' value='Delete'>");
                 out.println("</td>");
 
                 out.println("</tr>");

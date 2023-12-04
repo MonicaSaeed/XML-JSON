@@ -25,8 +25,16 @@ public class XmlSorter {
         Collections.sort(elements, new Comparator<Element>() {
             @Override
             public int compare(Element element1, Element element2) {
-                String attributeValue1 = element1.getAttribute(attributeName);
-                String attributeValue2 = element2.getAttribute(attributeName);
+                String attributeValue1 = "";
+                String attributeValue2 = "";
+
+                if (attributeName.equals("ID")) {
+                    attributeValue1 = element1.getAttribute(attributeName);
+                    attributeValue2 = element2.getAttribute(attributeName);
+                } else {
+                    attributeValue1 = element1.getElementsByTagName(attributeName).item(0).getTextContent();
+                    attributeValue2 = element2.getElementsByTagName(attributeName).item(0).getTextContent();
+                }
 
                 // Check if attributes are integers
                 boolean isIntAttribute = isInteger(attributeValue1) && isInteger(attributeValue2);

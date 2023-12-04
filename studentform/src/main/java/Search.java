@@ -148,13 +148,18 @@ public class Search extends HttpServlet {
                 // out.println("<td><a href='edit?ID=" + student.ID + "'>" + student.firstName
                 // + "</a></td>");
                 out.println("<input type='hidden' name='id' value='" + student.ID + "'>");
-                out.println(
-                        "<td><input type='text' name='firstname' value ='" + student.firstName + "' required></td>");
-                out.println("<td><input type='text' name='lastname' value ='" + student.lastName + "' required></td>");
+                out.println("<td><input type='text' name='firstname' value='" + student.firstName
+                        + "' pattern='[A-Za-z]+' required></td>");
+                out.println("<td><input type='text' name='lastname' value='" + student.lastName
+                        + "' pattern='[A-Za-z]+' required></td>");
                 out.println("<td><input type='text' name='gender' value ='" + student.gender + "' required></td>");
-                out.println("<td><input type='text' name='gpa' value ='" + student.GPA + "' required></td>");
-                out.println("<td><input type='text' name='level' value ='" + student.level + "' required></td>");
-                out.println("<td><input type='text' name='address' value ='" + student.address + "' required></td>");
+                out.println("<td><input type='number' name='gpa' value='" + student.GPA
+                        + "' min='0' max='4' step='0.01' required></td>");
+                out.println("<td><input type='number' name='level' value='" + student.level
+                        + "' min='1' max='4' required></td>");
+
+                out.println("<td><input type='text' name='address' value ='" + student.address
+                        + "' pattern='[A-Za-z]+' required></td>");
 
                 out.println("<td>");
                 out.println("<input type='submit' value='Edit'>");

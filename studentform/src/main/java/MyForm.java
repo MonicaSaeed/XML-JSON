@@ -12,6 +12,14 @@ public class MyForm extends HttpServlet {
 
         // Display the form to enter the number of students
         out.println("<html><head><title>Student Form</title></head><body>");
+        out.println("<style>");
+        out.println("body { font-family: Arial, sans-serif; }");
+        out.println("h2 { color: #333; }");
+        out.println("form { max-width: 400px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }");
+        out.println("input { width: 100%; padding: 8px; margin-bottom: 10px; }");
+        out.println("input[type='number'] { width: 50%; }");
+        out.println("input[type='submit'] { background-color: #4CAF50; color: white; cursor: pointer; }");
+        out.println("</style>");
         out.println("<h2>Enter the number of students:</h2>");
         out.println("<form method='post' action='form'>");
         // to get the number of students from the user
@@ -34,8 +42,24 @@ public class MyForm extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
+        // CSS styles
+        String cssStyles = "<style>" +
+                "body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }" +
+                "form { max-width: 600px; margin: 20px auto; padding: 15px; background-color: #fff; " +
+                "border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }" +
+                "h2 { color: #333; }" +
+                "p { font-weight: bold; margin-top: 15px; }" +
+                "input { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; " +
+                "border: 1px solid #ccc; border-radius: 4px; }" +
+                "input[type='number'] { width: 50%; }" +
+                "input[type='submit'] { background-color: #4CAF50; color: white; padding: 10px 15px; " +
+                "font-size: 16px; border: none; border-radius: 4px; cursor: pointer; }" +
+                "input[type='submit']:hover { background-color: #45a049; }" +
+                ".error-message { color: #ff0000; font-weight: bold; }" +
+                "</style>";
+
         // Display the form with inputs for each student based on the entered number
-        out.println("<html><head><title>Student Form</title></head><body>");
+        out.println("<html><head><title>Student Form</title>" + cssStyles + "</head><body>");
         out.println("<h2>Enter details for each student:</h2>");
         out.println("<form method='post' action='submit-form'>");
 
@@ -63,6 +87,7 @@ public class MyForm extends HttpServlet {
             out.println("Address: <input type='text' name='address" + i + "' pattern='[a-zA-Z]+' required><br>");
             out.println("");
         }
+
         out.println("<input type='submit' value='Submit'>");
         out.println("</form>");
         out.println("</body></html>");

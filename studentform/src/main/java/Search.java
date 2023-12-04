@@ -27,10 +27,38 @@ public class Search extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<title>Search Form</title>");
+        out.println("<style>");
+        out.println("body { font-family: Arial, sans-serif; }");
+        out.println("h2 { color: #333; }");
+        out.println("form { max-width: 400px; margin: 20px auto; padding: 15px; border: 1px solid #ccc; }");
+        out.println("label { display: block; margin-bottom: 5px; }");
+        out.println("select, input { width: 100%; padding: 8px; margin-bottom: 10px; }");
+        out.println("input[type='submit'] { background-color: #4CAF50; color: white; cursor: pointer; }");
+        out.println("</style>");
         out.println("</head>");
         out.println("<body>");
         out.println("<h2>Search Form</h2>");
+
+        // Add sorting options
         out.println("<form action='search' method='post'>");
+        out.println("<br><label for='sortAttribute'>Sort by:</label>");
+        out.println("<select name='sortAttribute' id='sortAttribute'>");
+        out.println("<option value='ID'>ID</option>");
+        out.println("<option value='firstName'>First Name</option>");
+        out.println("<option value='lastName'>Last Name</option>");
+        out.println("<option value='Gender'>Gender</option>");
+        out.println("<option value='gpa'>GPA</option>");
+        out.println("<option value='level'>Level</option>");
+        out.println("<option value='address'>Address</option>");
+        out.println("</select><br>");
+
+        // Add sorting order options
+        out.println("<label for='sortOrder'>Sort order:</label>");
+        out.println("<select name='sortOrder' id='sortOrder'>");
+        out.println("<option value='asc'>Ascending</option>");
+        out.println("<option value='desc'>Descending</option>");
+        out.println("</select><br>");
+
         out.println("<label for='searchType'>Search Type:</label>");
         out.println("<select name='searchType' id='searchType'>");
         out.println("<option value='ID'>id</option>");
@@ -62,8 +90,21 @@ public class Search extends HttpServlet {
         String searchType = request.getParameter("searchType");
         String searchTerm = request.getParameter("searchTerm");
 
+        String sortAttribute = request.getParameter("sortAttribute");
+        String sortOrder = request.getParameter("sortOrder");
+
+        Document doc = loadXmlFile("data/Students.xml");
+
         // Search the XML file based on the specified criteria
         List<Student> searchResults = performSearch(searchType, searchTerm);
+
+        // Sort the search results based on user input
+        if (sortAttribute != null && sortOrder != null) {
+            // Sort and save the XML
+            ArrayList<Element> sortedElements = XmlSorter.sortElementsByAttribute(doc, sortAttribute,
+                    sortOrder.equalsIgnoreCase("asc"));
+            XmlSorter.saveSortedXml(sortedElements, "data/Students.xml");
+        }
 
         // Display search results
         out.println("<html>");
@@ -76,6 +117,9 @@ public class Search extends HttpServlet {
         if (searchResults.isEmpty()) {
             out.println("<p>No results found for the specified criteria.</p>");
         } else {
+
+            out.println("<p>Number of found students: " + searchResults.size() + "</p>");
+
             out.println("<table border='1'>");
             out.println("<tr>");
             out.println("<th>ID</th>");
@@ -104,6 +148,7 @@ public class Search extends HttpServlet {
 
                 out.println("<td>");
                 out.println("<input type='submit' value='Edit'>");
+
                 out.println("<input type='submit' formaction='delete' value='Delete'>");
                 out.println("</td>");
 
@@ -117,6 +162,19 @@ public class Search extends HttpServlet {
 
         out.println("</body>");
         out.println("</html>");
+    }
+
+    private Document loadXmlFile(String filePath) {
+        Document doc = null;
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(filePath);
+            doc.getDocumentElement().normalize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doc;
     }
 
     private List<Student> performSearch(String searchType, String searchTerm) {

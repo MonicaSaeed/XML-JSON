@@ -90,10 +90,6 @@ public class SubmitForm extends HttpServlet {
             // Redirect to another page after processing
             response.sendRedirect("/studentform/search");
 
-            // Sort and save the XML
-            ArrayList<Element> sortedElements = XmlSorter.sortElementsByAttribute(doc, "level", true);
-            XmlSorter.saveSortedXml(sortedElements, "data/Students.xml");
-
         } catch (Exception e) {
             e.printStackTrace();
         }

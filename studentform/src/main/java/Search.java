@@ -74,7 +74,7 @@ public class Search extends HttpServlet {
         out.println("<label for='searchTerm'>Search Term:</label>");
         out.println("<input type='text' name='searchTerm' id='searchTerm' required>");
         out.println("<br>");
-        out.println("<input type='submit' value='Search'>");
+        out.println("<input type='submit' value='Search and Sort'>");
         out.println("</form>");
         out.println("</body>");
         out.println("</html>");

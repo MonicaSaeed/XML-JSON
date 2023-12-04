@@ -118,6 +118,16 @@ public class Search extends HttpServlet {
             out.println("<p>No results found for the specified criteria.</p>");
         } else {
 
+            out.println("<style>");
+            out.println("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
+            out.println("th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }");
+            out.println("th { background-color: #f2f2f2; }");
+            out.println("tr:hover { background-color: #f5f5f5; }");
+            out.println("input[type='text'] { width: 100%; padding: 5px; box-sizing: border-box; }");
+            out.println(
+                    "input[type='submit'] { background-color: #4CAF50; color: white; padding: 8px 12px; cursor: pointer; }");
+            out.println("</style>");
+
             out.println("<p>Number of found students: " + searchResults.size() + "</p>");
 
             out.println("<table border='1'>");

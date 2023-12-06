@@ -77,14 +77,14 @@ public class MyForm extends HttpServlet {
                     "First Name: <input type='text' name='firstname" + i + "' pattern='[a-zA-Z]{1,32}' required><br>");
             // get input for last name is characters (a-z) only change to pattern
             // pattern="[A-Za-z]{1,32}"
-            out.println("Last Name: <input type='text' name='lastname" + i + "' pattern='[^0-9]+' required><br>");
+            out.println("Last Name: <input type='text' name='lastname" + i + "' pattern='[a-zA-Z]+' required><br>");
             out.println("Gender: <input type='text' name='gender" + i + "' required><br>");
             // get input for gpa with constraints <= 0 and >= 4 (float)
             out.println("GPA: <input type='number' name='gpa" + i + "' min='0' max='4' step='0.01' required><br>");
             // get input for level with constraints >= 1 and <= 4
             out.println("Level: <input type='number' name='level" + i + "' min='1' max='4' required><br>");
             // get input for address with characters (a-z) only
-            out.println("Address: <input type='text' name='address" + i + "' pattern='[a-zA-Z]+' required><br>");
+            out.println("Address: <input type='text' name='address" + i + "' pattern='[^0-9]+' required><br>");
             out.println("");
         }
 

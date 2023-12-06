@@ -228,25 +228,25 @@ public class Search extends HttpServlet {
                     String gpa = studentElement.getElementsByTagName("gpa").item(0).getTextContent();
 
                     // Perform the search based on the specified criteria
-                    if (("FirstName".equalsIgnoreCase(searchType) && firstName.contains(searchTerm))) {
+                    if (("FirstName".equals(searchType) && firstName.contains(searchTerm))) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("GPA".equalsIgnoreCase(searchType) && gpa.equals(searchTerm))) {
+                    } else if (("GPA".equals(searchType) && gpa.equals(searchTerm))) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("LastName").equalsIgnoreCase(searchType) && lastName.contains(searchTerm)) {
+                    } else if (("LastName").equals(searchType) && lastName.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("Gender").equalsIgnoreCase(searchType) && gender.contains(searchTerm)) {
+                    } else if (("Gender").equals(searchType) && gender.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("Level").equalsIgnoreCase(searchType) && level.contains(searchTerm)) {
+                    } else if (("Level").equals(searchType) && level.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("Address").equalsIgnoreCase(searchType) && address.contains(searchTerm)) {
+                    } else if (("Address").equals(searchType) && address.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
-                    } else if (("ID").equalsIgnoreCase(searchType) && id.contains(searchTerm)) {
+                    } else if (("ID").equals(searchType) && id.contains(searchTerm)) {
                         Student student = new Student(id, firstName, lastName, gender, gpa, level, address);
                         searchResults.add(student);
                     }

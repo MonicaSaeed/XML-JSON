@@ -1,7 +1,7 @@
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,24 +9,39 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class ReadJSON {
-    public static void main(String[] args) {
+    public static void readAndPrintEmployeeInfo(PrintWriter out) {
         // JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader(
-                "D:\\fcai\\fourth level #1\\SOA\\XML\\employee\\src\\main\\java\\Employee.json")) {
+        // Specify the path to your JSON file
+        String filePath = "data/Employee.json";
+
+        try (FileReader reader = new FileReader(filePath)) {
             // Read JSON file
             Object obj = jsonParser.parse(reader);
 
             JSONArray employeeList = (JSONArray) obj;
 
-            // System.out.println(employeeList);
+            // Apply CSS style to the HTML output
+            out.println("<style>");
+            out.println(".employee-info { border: 1px solid #ddd; padding: 10px; margin: 10px; }");
+            out.println(".employee-header { background-color: #f2f222; padding: 5px; }");
+            out.println(".employee-details { margin-left: 20px; }");
+            out.println("</style>");
+
+            // Output employee information
+            out.println("<div class='employee-info'>");
+            out.println("<h1 class='employee-header'>Employee Information</h1>");
 
             for (int i = 0; i < employeeList.size(); i++) {
-                System.out.println("Employee #" + i);
-                parseEmployeeObject((JSONObject) employeeList.get(i));
-                System.out.println("-----------------------------------------------");
+                out.println("<div class='employee-details'>");
+                out.println("<h3>Employee #" + (i + 1) + "</h3>");
+                parseEmployeeObject((JSONObject) employeeList.get(i), out);
+                out.println("<hr/>");
+                out.println("</div>");
             }
+
+            out.println("</div>");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,55 +52,25 @@ public class ReadJSON {
         }
     }
 
-    private static void parseEmployeeObject(JSONObject employee) {
-        // Get employee object within list
+    private static void parseEmployeeObject(JSONObject employee, PrintWriter out) {
+        // Get employee object within the list
         JSONObject employeeObject = (JSONObject) employee;
 
-        // Get employee first name
-        String firstName = (String) employeeObject.get("FirstName");
-        System.out.println("first name is: " + firstName);
-
-        // Get employee last name
-        String lastName = (String) employeeObject.get("LastName");
-        System.out.println("last name is: " + lastName);
-
-        // Get employee id
-        Object id = employeeObject.get("EmployeeID");
-        System.out.println("employee id is: " + id);
-
-        // Get employee designation
-        String designation = (String) employeeObject.get("Designation");
-        System.out.println("Designation is: " + designation);
+        // Get employee details
+        out.println("<p><strong>First name:</strong> " + employeeObject.get("FirstName") + "</p>");
+        out.println("<p><strong>Last name:</strong> " + employeeObject.get("LastName") + "</p>");
+        out.println("<p><strong>Employee ID:</strong> " + employeeObject.get("EmployeeID") + "</p>");
+        out.println("<p><strong>Designation:</strong> " + employeeObject.get("Designation") + "</p>");
 
         // Get employee knownLanguages
-        Object knownLanguages = employeeObject.get("KnownLanguages");
-        System.out.println("KnownLanguages is: " + knownLanguages);
-        // for (int i = 0; i < ((JSONArray) knownLanguages).size(); i++) {
-        // // System.out.println(((JSONArray) knownLanguages).get(i));
-        // for (int j = 0; j < ((JSONArray) knownLanguages).size(); j++) {
-        // // print LanguageName from "KnownLanguages": [
-        // // {
-        // // "LanguageName": "Perl",
-        // // "ScoreOutof100": 30
-        // // },
-        // // {
-        // // "LanguageName": "Java",
-        // // "ScoreOutof100": 65
-        // // },
-        // // {
-        // // "LanguageName": "C++",
-        // // "ScoreOutof100": 70
-        // // }
-        // // ]
-        // System.out.println(i);
-        // String languageName = (String) ((JSONObject) ((JSONArray)
-        // knownLanguages).get(j)).get("LanguageName");
-        // System.out.println("LanguageName is: " + languageName);
-        // String scoreOutof100 = (String) ((JSONObject) ((JSONArray)
-        // knownLanguages).get(j)).get("ScoreOutof100");
-        // System.out.println("ScoreOutof100 is: " + scoreOutof100);
-        // }
-        // }
+        JSONArray knownLanguages = (JSONArray) employeeObject.get("KnownLanguages");
 
+        // Iterate through knownLanguages and print LanguageName and ScoreOutof100
+        for (int j = 0; j < knownLanguages.size(); j++) {
+            out.println("<p class='language-info'><strong>Known Language #" + (j + 1) + "</strong></p>");
+            JSONObject language = (JSONObject) knownLanguages.get(j);
+            out.println("<p><strong>Language Name:</strong> " + language.get("LanguageName") + "</p>");
+            out.println("<p><strong>Score Out of 100:</strong> " + language.get("ScoreOutof100") + "</p>");
+        }
     }
 }

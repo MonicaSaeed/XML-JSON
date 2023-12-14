@@ -71,7 +71,7 @@ public class WriteJSON extends HttpServlet {
         JSONParser jsonParser = new JSONParser();
 
         try (FileReader reader = new FileReader(
-                "C:\\apache-tomcat-9.0.82\\apache-tomcat-9.0.82\\bin\\data\\Employee.json")) {
+                "data\\Employee.json")) {
             Object obj = jsonParser.parse(reader);
             if (obj instanceof JSONArray) {
                 employeeList = (JSONArray) obj;
@@ -85,7 +85,7 @@ public class WriteJSON extends HttpServlet {
 
     private static void writeEmployeeListToFile(JSONArray employeeList) {
         try (FileWriter file = new FileWriter(
-                "C:\\apache-tomcat-9.0.82\\apache-tomcat-9.0.82\\bin\\data\\Employee.json")) {
+                "data\\Employee.json")) {
             file.write(employeeList.toJSONString());
             file.flush();
         } catch (IOException e) {

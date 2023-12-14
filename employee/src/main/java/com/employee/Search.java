@@ -1,6 +1,5 @@
 package com.employee;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,73 +9,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-@WebServlet("/searchJSON")
+@WebServlet("/search")
 public class Search extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         PrintWriter out = response.getWriter();
 
-        // Retrieve search parameters from the request
-        String searchType = request.getParameter("searchType");
-        String searchValue = request.getParameter("searchValue");
-        System.out.println("Search type: " + searchType);
-        System.out.println("Search value: " + searchValue);
+        out.println("<html>");
+        out.println("<head><title>Add New Employee</title>");
 
-        // Read and parse JSON data
-        JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader("data\\Employee.json")) {
-            Object obj = parser.parse(reader);
-            JSONArray employeeArray = (JSONArray) obj;
+        out.println("</head>");
+        out.println("<body style=\"font-family: Arial, sans-serif; margin: 20px;\">");
+        out.println("<h1 style=\"color: #336699;\">Add New Employee</h1>");
+        out.println("<form action='searchJSON' method='post'>");
+        // do dropdown menu Give the user the ability to search for a specific
+        // EmployeeID or Designation
+        out.println("Search by: <select name='searchType' style=\"margin-bottom: 10px;\">");
+        out.println("<option value='EmployeeID'>Employee ID</option>");
+        out.println("<option value='Designation'>Designation</option>");
+        out.println("</select><br>");
+        out.println("Search Value: <input type='text' name='searchValue' required style=\"margin-bottom: 10px;\"><br>");
 
-            int matchCount = 0;
+        out.println(
+                "<input type='submit' value='Search' style=\"background-color: #f2f222; color: black; padding: 10px 20px; border: none; border-radius: 5px;\">");
+        out.println("</form>");
+        out.println("</body>");
+        out.println("</html>");
 
-            // Iterate through the array to find matching records
-            for (Object empObj : employeeArray) {
-                JSONObject employee = (JSONObject) empObj;
-
-                // Check if searchType is "EmployeeID" and parse searchValue as an integer
-                if ("EmployeeID".equals(searchType)) {
-                    Long fieldValue = (Long) employee.get(searchType); // Assuming EmployeeID is stored as Long
-                    if (fieldValue != null && fieldValue.intValue() == Integer.parseInt(searchValue)) {
-                        matchCount++;
-                        // Match found, send the matched employee data to the web browser
-                        out.println("<html><body>");
-                        out.println("<h1>Match found:</h1>");
-                        out.println("<p>" + employee.toJSONString() + "</p>");
-                        out.println("</body></html>");
-                    }
-                } else {
-                    // For other search types (assuming they are strings)
-                    String fieldValue = (String) employee.get(searchType);
-                    if (fieldValue != null && fieldValue.equals(searchValue)) {
-                        matchCount++;
-                        // Match found, send the matched employee data to the web browser
-                        out.println("<html><body>");
-                        out.println("<h1>Match found:</h1>");
-                        out.println("<p>" + employee.toJSONString() + "</p>");
-                        out.println("</body></html>");
-                    }
-                }
-            }
-
-            if (matchCount == 0) {
-                // If no match is found
-                out.println("<html><body>");
-                out.println("<h1>No match found for the specified criteria.</h1>");
-                out.println("</body></html>");
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } finally {
-            out.close();
-        }
+        out.close();
     }
 }

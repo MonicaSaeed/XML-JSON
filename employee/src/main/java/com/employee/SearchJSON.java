@@ -31,8 +31,7 @@ public class SearchJSON extends HttpServlet {
 
         // Read and parse JSON data
         JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader(
-                "data\\Employee.json")) {
+        try (FileReader reader = new FileReader("data\\Employee.json")) {
             Object obj = parser.parse(reader);
             JSONArray employeeArray = (JSONArray) obj;
 
@@ -41,18 +40,32 @@ public class SearchJSON extends HttpServlet {
             // Iterate through the array to find matching records
             for (Object empObj : employeeArray) {
                 JSONObject employee = (JSONObject) empObj;
-                String fieldValue = (String) employee.get(searchType);
 
-                if (fieldValue != null && fieldValue.equals(searchValue)) {
-                    matchCount++;
-                    // Match found, send the matched employee data to the web browser
-                    out.println("<html><body>");
-                    out.println("<h1>Match found:</h1>");
-                    out.println("<p>" + employee.toJSONString() + "</p>");
-                    out.println("</body></html>");
-
+                // Check if searchType is "EmployeeID" and parse searchValue as an integer
+                if ("EmployeeID".equals(searchType)) {
+                    Long fieldValue = (Long) employee.get(searchType); // Assuming EmployeeID is stored as Long
+                    if (fieldValue != null && fieldValue.intValue() == Integer.parseInt(searchValue)) {
+                        matchCount++;
+                        // Match found, send the matched employee data to the web browser
+                        out.println("<html><body>");
+                        out.println("<h1>Match found:</h1>");
+                        out.println("<p>" + employee.toJSONString() + "</p>");
+                        out.println("</body></html>");
+                    }
+                } else {
+                    // For other search types (assuming they are strings)
+                    String fieldValue = (String) employee.get(searchType);
+                    if (fieldValue != null && fieldValue.equals(searchValue)) {
+                        matchCount++;
+                        // Match found, send the matched employee data to the web browser
+                        out.println("<html><body>");
+                        out.println("<h1>Match found:</h1>");
+                        out.println("<p>" + employee.toJSONString() + "</p>");
+                        out.println("</body></html>");
+                    }
                 }
             }
+
             if (matchCount == 0) {
                 // If no match is found
                 out.println("<html><body>");

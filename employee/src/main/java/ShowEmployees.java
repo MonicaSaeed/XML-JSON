@@ -24,6 +24,12 @@ public class ShowEmployees extends HttpServlet {
         // Call your existing code to read and parse JSON
         ReadJSON.readAndPrintEmployeeInfo(out);
 
+        // Add a button to add a new employee
+        out.println("<form action='addNewEmployee' method='post' style='margin-top: 20px;'>");
+        out.println(
+                "    <input type='submit' value='Add Employee' style='background-color: #f2f222; color: black; padding: 10px 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;'>");
+        out.println("</form>");
+
         out.println("</body>");
         out.println("</html>");
     }

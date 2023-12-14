@@ -67,7 +67,7 @@ public class ReadJSON {
 
         // Iterate through knownLanguages and print LanguageName and ScoreOutof100
         for (int j = 0; j < knownLanguages.size(); j++) {
-            out.println("<p class='language-info'><strong>Known Language #" + (j + 1) + "</strong></p>");
+            out.println("<p class='language-info'><strong>KnownLanguages #" + (j + 1) + "</strong></p>");
             JSONObject language = (JSONObject) knownLanguages.get(j);
             out.println("<p><strong>Language Name:</strong> " + language.get("LanguageName") + "</p>");
             out.println("<p><strong>Score Out of 100:</strong> " + language.get("ScoreOutof100") + "</p>");

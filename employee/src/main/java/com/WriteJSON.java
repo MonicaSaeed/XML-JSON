@@ -38,10 +38,11 @@ public class WriteJSON extends HttpServlet {
         }
 
         JSONObject employeeDetails = new JSONObject();
-
+        // parse id as int
+        int intid = Integer.parseInt(id);
         employeeDetails.put("FirstName", firstName);
         employeeDetails.put("LastName", lastName);
-        employeeDetails.put("EmployeeID", id);
+        employeeDetails.put("EmployeeID", intid);
         employeeDetails.put("Designation", designation);
         JSONArray knownLanguages = new JSONArray();
         for (int i = 0; i < num; i++) {

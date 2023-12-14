@@ -41,10 +41,12 @@ public class SearchJSON extends HttpServlet {
             for (Object empObj : employeeArray) {
                 JSONObject employee = (JSONObject) empObj;
 
-                // Check if searchType is "EmployeeID" and parse searchValue as an integer
-                if ("EmployeeID".equals(searchType)) {
-                    Long fieldValue = (Long) employee.get(searchType); // Assuming EmployeeID is stored as Long
-                    if (fieldValue != null && fieldValue.intValue() == Integer.parseInt(searchValue)) {
+                if (searchType.equals("EmployeeID")) {
+                    // If searchType is EmployeeID, parse fieldValue as an integer
+                    int fieldValue = ((Long) employee.get(searchType)).intValue();
+                    int searchIntValue = Integer.parseInt(searchValue);
+
+                    if (fieldValue == searchIntValue) {
                         matchCount++;
                         // Match found, send the matched employee data to the web browser
                         out.println("<html><body>");
@@ -53,9 +55,9 @@ public class SearchJSON extends HttpServlet {
                         out.println("</body></html>");
                     }
                 } else {
-                    // For other search types (assuming they are strings)
+                    // For other search types, compare as strings
                     String fieldValue = (String) employee.get(searchType);
-                    if (fieldValue != null && fieldValue.equals(searchValue)) {
+                    if (fieldValue.equals(searchValue)) {
                         matchCount++;
                         // Match found, send the matched employee data to the web browser
                         out.println("<html><body>");
@@ -64,6 +66,7 @@ public class SearchJSON extends HttpServlet {
                         out.println("</body></html>");
                     }
                 }
+
             }
 
             if (matchCount == 0) {

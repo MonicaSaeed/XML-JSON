@@ -1,6 +1,5 @@
 package com.employee;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,10 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ReadJSON;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 @WebServlet("/searchJSON")
 public class SearchJSON extends HttpServlet {
@@ -30,10 +28,7 @@ public class SearchJSON extends HttpServlet {
         System.out.println("Search value: " + searchValue);
 
         // Read and parse JSON data
-        JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader("data\\Employee.json")) {
-            Object obj = parser.parse(reader);
-            JSONArray employeeArray = (JSONArray) obj;
+        JSONArray employeeArray = ReadJSON.readExistingEmployees();
 
             int matchCount = 0;
 
@@ -66,7 +61,6 @@ public class SearchJSON extends HttpServlet {
                         out.println("</body></html>");
                     }
                 }
-
             }
 
             if (matchCount == 0) {
@@ -75,11 +69,5 @@ public class SearchJSON extends HttpServlet {
                 out.println("<h1>No match found for the specified criteria.</h1>");
                 out.println("</body></html>");
             }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } finally {
-            out.close();
-        }
     }
 }

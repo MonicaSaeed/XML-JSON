@@ -1,8 +1,8 @@
 package com;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,20 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 @WebServlet("/writeJSON")
-
 public class WriteJSON extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // public static void writeNewEmp(String firstName, String lastName, String id,
-        // String designation, int num,
-        // String[] languageName, int[] scoreOutof100) {
-        // First Employee
 
         String firstName = request.getParameter("firstname");
         String lastName = request.getParameter("lastname");
@@ -32,6 +27,13 @@ public class WriteJSON extends HttpServlet {
         int num = Integer.parseInt(request.getParameter("num"));
         String[] languageName = new String[num];
         int[] scoreOutof100 = new int[num];
+
+        // Validate uniqueness of employee IDs
+        if (!isEmployeeIdUnique(id)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Employee ID must be unique");
+            return;
+        }
+
         for (int i = 0; i < num; i++) {
             languageName[i] = request.getParameter("languageName");
             scoreOutof100[i] = Integer.parseInt(request.getParameter("scoreOutof100"));
@@ -55,7 +57,7 @@ public class WriteJSON extends HttpServlet {
         employeeDetails.put("KnownLanguages", knownLanguages);
 
         // Read existing employees from the file
-        JSONArray employeeList = readExistingEmployees();
+        JSONArray employeeList = ReadJSON.readExistingEmployees();
 
         // Add the new employee to the list
         employeeList.add(employeeDetails);
@@ -67,30 +69,26 @@ public class WriteJSON extends HttpServlet {
         response.sendRedirect("list");
     }
 
-    private static JSONArray readExistingEmployees() {
-        JSONArray employeeList = new JSONArray();
-        JSONParser jsonParser = new JSONParser();
-
-        try (FileReader reader = new FileReader(
-                "data\\Employee.json")) {
-            Object obj = jsonParser.parse(reader);
-            if (obj instanceof JSONArray) {
-                employeeList = (JSONArray) obj;
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-
-        return employeeList;
-    }
-
-    private static void writeEmployeeListToFile(JSONArray employeeList) {
-        try (FileWriter file = new FileWriter(
-                "data\\Employee.json")) {
-            file.write(employeeList.toJSONString());
+    public static void writeEmployeeListToFile(JSONArray employeeList) {
+        try (FileWriter file = new FileWriter("data\\Employee.json")) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String formattedJson = gson.toJson(employeeList);
+            file.write(formattedJson);
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isEmployeeIdUnique(String id) {
+        JSONArray employeeList = ReadJSON.readExistingEmployees();
+        for (Object obj : employeeList) {
+            JSONObject employee = (JSONObject) obj;
+            long existingId = (long) employee.get("EmployeeID");
+            if (existingId == Long.parseLong(id)) {
+                return false; // Not unique
+            }
+        }
+        return true; // Unique
     }
 }

@@ -42,6 +42,7 @@ public class AddNewEmp extends HttpServlet {
                 out.println("First Name: <input type='text' name='firstname' required style=\"margin-bottom: 10px;\"><br>");
                 out.println("Last Name: <input type='text' name='lastname' required style=\"margin-bottom: 10px;\"><br>");
                 out.println("Employee ID: <input type='text' name='id' required style=\"margin-bottom: 10px;\"><br>");
+                
                 out.println("Designation: <input type='text' name='designation' required style=\"margin-bottom: 10px;\"><br>");
                 out.println(
                                 "Number of Languages Known: <input type='number' id='numLanguages' name='num' required oninput='generateLanguageFields()' style=\"margin-bottom: 10px;\"><br>");

@@ -1,3 +1,5 @@
+package com;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -52,7 +54,23 @@ public class ReadJSON {
         }
     }
 
-    private static void parseEmployeeObject(JSONObject employee, PrintWriter out) {
+    public static JSONArray readExistingEmployees() {
+        JSONArray employeeList = new JSONArray();
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader("data\\Employee.json")) {
+            Object obj = jsonParser.parse(reader);
+            if (obj instanceof JSONArray) {
+                employeeList = (JSONArray) obj;
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return employeeList;
+    }
+
+    public static void parseEmployeeObject(JSONObject employee, PrintWriter out) {
         // Get employee object within the list
         JSONObject employeeObject = (JSONObject) employee;
 
@@ -72,5 +90,12 @@ public class ReadJSON {
             out.println("<p><strong>Language Name:</strong> " + language.get("LanguageName") + "</p>");
             out.println("<p><strong>Score Out of 100:</strong> " + language.get("ScoreOutof100") + "</p>");
         }
+
+
+        // Add an "Delete" button for each employee
+        out.println("<form action='delete' method='post'>");
+        out.println("<input type='submit' value='Delete'>");
+        out.println("<input type='hidden' name='id' value='" + employeeObject.get("EmployeeID") + "'>");
+        out.println("</form>");
     }
 }

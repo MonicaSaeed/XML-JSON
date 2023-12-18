@@ -22,7 +22,7 @@ public class EditEmployee extends HttpServlet {
         response.setContentType("text/html");
 
         // Handle the edit action
-        String employeeIdToEdit = "2000";
+        String employeeIdToEdit = request.getParameter("id");
         String newDesignation = request.getParameter("designation");
 
         editEmployeeInJSON(employeeIdToEdit, newDesignation);

@@ -78,8 +78,9 @@ public class ReadJSON {
         out.println("<p><strong>First name:</strong> " + employeeObject.get("FirstName") + "</p>");
         out.println("<p><strong>Last name:</strong> " + employeeObject.get("LastName") + "</p>");
         out.println("<p><strong>Employee ID:</strong> " + employeeObject.get("EmployeeID") + "</p>");
-        out.println("<p><strong>Designation:</strong> " + employeeObject.get("Designation") + "</p>");
-
+        out.println("<form action='edit' method='post'>");
+        out.println("<p><strong>Designation:</strong> <input type='text' name='designation' value='" + employeeObject.get("Designation") + "' required></p>");
+        
         // Get employee knownLanguages
         JSONArray knownLanguages = (JSONArray) employeeObject.get("KnownLanguages");
 
@@ -91,6 +92,10 @@ public class ReadJSON {
             out.println("<p><strong>Score Out of 100:</strong> " + language.get("ScoreOutof100") + "</p>");
         }
 
+        // Add an "Edit" button for each employee
+        out.println("<input type='hidden' name='id' value='" + employee.get("EmployeeID") + "'>");
+        out.println("<input type='submit' value='Edit'>");
+        out.println("</form>");
 
         // Add an "Delete" button for each employee
         out.println("<form action='delete' method='post'>");

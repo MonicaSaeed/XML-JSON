@@ -1,6 +1,5 @@
 package com;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,46 +11,30 @@ import org.json.simple.parser.ParseException;
 
 public class ReadJSON {
     public static void readAndPrintEmployeeInfo(PrintWriter out) {
-        // JSON parser object to parse read file
-        JSONParser jsonParser = new JSONParser();
 
-        // Specify the path to your JSON file
-        String filePath = "data/Employee.json";
+        JSONArray employeeList = readExistingEmployees();
 
-        try (FileReader reader = new FileReader(filePath)) {
-            // Read JSON file
-            Object obj = jsonParser.parse(reader);
+        // Apply CSS style to the HTML output
+        out.println("<style>");
+        out.println(".employee-info { border: 1px solid #ddd; padding: 10px; margin: 10px; }");
+        out.println(".employee-header { background-color: #f2f222; padding: 5px; }");
+        out.println(".employee-details { margin-left: 20px; }");
+        out.println("</style>");
 
-            JSONArray employeeList = (JSONArray) obj;
+        // Output employee information
+        out.println("<div class='employee-info'>");
+        out.println("<h1 class='employee-header'>Employee Information</h1>");
 
-            // Apply CSS style to the HTML output
-            out.println("<style>");
-            out.println(".employee-info { border: 1px solid #ddd; padding: 10px; margin: 10px; }");
-            out.println(".employee-header { background-color: #f2f222; padding: 5px; }");
-            out.println(".employee-details { margin-left: 20px; }");
-            out.println("</style>");
-
-            // Output employee information
-            out.println("<div class='employee-info'>");
-            out.println("<h1 class='employee-header'>Employee Information</h1>");
-
-            for (int i = 0; i < employeeList.size(); i++) {
-                out.println("<div class='employee-details'>");
-                out.println("<h3>Employee #" + (i + 1) + "</h3>");
-                parseEmployeeObject((JSONObject) employeeList.get(i), out);
-                out.println("<hr/>");
-                out.println("</div>");
-            }
-
+        for (int i = 0; i < employeeList.size(); i++) {
+            out.println("<div class='employee-details'>");
+            out.println("<h3>Employee #" + (i + 1) + "</h3>");
+            parseEmployeeObject((JSONObject) employeeList.get(i), out);
+            out.println("<hr/>");
             out.println("</div>");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
+
+        out.println("</div>");
+
     }
 
     public static JSONArray readExistingEmployees() {
@@ -79,8 +62,9 @@ public class ReadJSON {
         out.println("<p><strong>Last name:</strong> " + employeeObject.get("LastName") + "</p>");
         out.println("<p><strong>Employee ID:</strong> " + employeeObject.get("EmployeeID") + "</p>");
         out.println("<form action='edit' method='post'>");
-        out.println("<p><strong>Designation:</strong> <input type='text' name='designation' value='" + employeeObject.get("Designation") + "' required></p>");
-        
+        out.println("<p><strong>Designation:</strong> <input type='text' name='designation' value='"
+                + employeeObject.get("Designation") + "' required></p>");
+
         // Get employee knownLanguages
         JSONArray knownLanguages = (JSONArray) employeeObject.get("KnownLanguages");
 

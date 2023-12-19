@@ -31,7 +31,6 @@ public class ShowEmployees extends HttpServlet {
                 out.println("<input type='submit' value='Add Employee' style='background-color: #f2f222; color: black; padding: 10px 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;'>");
                 out.println("<input type='submit' formaction='search' value='Search for Employee' style='background-color: #f2f222; color: black; padding: 10px 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;'>");
 
-           
                 // Add a button to retrieve employees
                 out.println("<input type='submit' method ='post' formaction='retrieve' value='Retrieve Employees' style='background-color: #f2f222; color: black; padding: 10px 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;'>");
                 out.println("</form>");

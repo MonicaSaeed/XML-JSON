@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ReadJSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -30,44 +33,51 @@ public class SearchJSON extends HttpServlet {
         // Read and parse JSON data
         JSONArray employeeArray = ReadJSON.readExistingEmployees();
 
-            int matchCount = 0;
+        int matchCount = 0;
+        // JSONArray jsonArray = new JSONArray();
 
-            // Iterate through the array to find matching records
-            for (Object empObj : employeeArray) {
-                JSONObject employee = (JSONObject) empObj;
+        // Iterate through the array to find matching records
+        for (Object empObj : employeeArray) {
+            JSONObject employee = (JSONObject) empObj;
 
-                if (searchType.equals("EmployeeID")) {
-                    // If searchType is EmployeeID, parse fieldValue as an integer
-                    int fieldValue = ((Long) employee.get(searchType)).intValue();
-                    int searchIntValue = Integer.parseInt(searchValue);
+            if (searchType.equals("EmployeeID")) {
+                // If searchType is EmployeeID, parse fieldValue as an integer
+                int fieldValue = ((Long) employee.get(searchType)).intValue();
+                int searchIntValue = Integer.parseInt(searchValue);
 
-                    if (fieldValue == searchIntValue) {
-                        matchCount++;
-                        // Match found, send the matched employee data to the web browser
-                        out.println("<html><body>");
-                        out.println("<h1>Match found:</h1>");
-                        out.println("<p>" + employee.toJSONString() + "</p>");
-                        out.println("</body></html>");
-                    }
-                } else {
-                    // For other search types, compare as strings
-                    String fieldValue = (String) employee.get(searchType);
-                    if (fieldValue.equals(searchValue)) {
-                        matchCount++;
-                        // Match found, send the matched employee data to the web browser
-                        out.println("<html><body>");
-                        out.println("<h1>Match found:</h1>");
-                        out.println("<p>" + employee.toJSONString() + "</p>");
-                        out.println("</body></html>");
-                    }
+                if (fieldValue == searchIntValue) {
+                    matchCount++;
+                    // jsonArray.add(employee);
+                    // Match found, send the matched employee data to the web browser
+                    out.println("<html><body>");
+                    out.println("<h1>Match found:</h1>");
+                    out.println("<p>" + employee.toJSONString() + "</p>");
+                    out.println("</body></html>");
+                }
+            } else {
+                // For other search types, compare as strings
+                String fieldValue = (String) employee.get(searchType);
+                if (fieldValue.equals(searchValue)) {
+                    matchCount++;
+                    // jsonArray.add(employee);
+                    // Match found, send the matched employee data to the web browser
+                    out.println("<html><body>");
+                    out.println("<h1>Match found:</h1>");
+                    out.println("<p>" + employee.toJSONString() + "</p>");
+                    out.println("</body></html>");
                 }
             }
+        }
 
-            if (matchCount == 0) {
-                // If no match is found
-                out.println("<html><body>");
-                out.println("<h1>No match found for the specified criteria.</h1>");
-                out.println("</body></html>");
-            }
+        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        // String formattedJson = gson.toJson(jsonArray);
+        // out.println(formattedJson);
+
+        if (matchCount == 0) {
+            // If no match is found
+            out.println("<html><body>");
+            out.println("<h1>No match found for the specified criteria.</h1>");
+            out.println("</body></html>");
+        }
     }
 }

@@ -65,19 +65,12 @@ public class RetrieveEmployees extends HttpServlet {
         });
 
         // print the sorted list of employees
-        if (employees.size() == 0) {
-            out.println("<html><body>");
-            out.println("<h1>No employees found  who know Java with score higher than 50</h1>");
-            out.println("</body></html>");
-            return;
-        } else {
-            out.println("<html><body>");
-            out.println("<h1>Employees who know Java with score higher than 50:</h1>");
-            for (JSONObject employee : employees) {
-                out.println("<p>" + employee.toJSONString() + "</p>");
-            }
-            out.println("</body></html>");
+        out.println("<html><body>");
+        out.println("<h1>Employees who know Java with score higher than 50:</h1>");
+        for (JSONObject employee : employees) {
+            out.println("<p>" + employee.toJSONString() + "</p>");
         }
+        out.println("</body></html>");
 
     }
 }

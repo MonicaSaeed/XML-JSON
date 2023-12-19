@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ReadJSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,7 +34,6 @@ public class SearchJSON extends HttpServlet {
         JSONArray employeeArray = ReadJSON.readExistingEmployees();
 
         int matchCount = 0;
-
         // JSONArray jsonArray = new JSONArray();
 
         // Iterate through the array to find matching records
@@ -73,6 +74,7 @@ public class SearchJSON extends HttpServlet {
         // out.println(formattedJson);
 
         if (matchCount == 0) {
+            // If no match is found
             out.println("<html><body>");
             out.println("<h1>No match found for the specified criteria.</h1>");
             out.println("</body></html>");

@@ -25,7 +25,6 @@ public class Search extends HttpServlet {
         out.println("<body style=\"font-family: Arial, sans-serif; margin: 20px;\">");
         out.println("<h1 style=\"color: #336699;\">Add New Employee</h1>");
         out.println("<form action='searchJSON' method='post'>");
-        // do dropdown menu Give the user the ability to search for a specific
         // EmployeeID or Designation
         out.println("Search by: <select name='searchType' style=\"margin-bottom: 10px;\">");
         out.println("<option value='EmployeeID'>Employee ID</option>");

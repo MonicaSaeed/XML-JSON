@@ -48,7 +48,6 @@ public class SearchJSON extends HttpServlet {
                 if (fieldValue == searchIntValue) {
                     matchCount++;
                     // jsonArray.add(employee);
-                    // Match found, send the matched employee data to the web browser
                     out.println("<html><body>");
                     out.println("<h1>Match found:</h1>");
                     out.println("<p>" + employee.toJSONString() + "</p>");
@@ -60,7 +59,6 @@ public class SearchJSON extends HttpServlet {
                 if (fieldValue.equals(searchValue)) {
                     matchCount++;
                     // jsonArray.add(employee);
-                    // Match found, send the matched employee data to the web browser
                     out.println("<html><body>");
                     out.println("<h1>Match found:</h1>");
                     out.println("<p>" + employee.toJSONString() + "</p>");

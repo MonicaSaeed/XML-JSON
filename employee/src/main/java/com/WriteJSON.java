@@ -35,8 +35,9 @@ public class WriteJSON extends HttpServlet {
         }
 
         for (int i = 0; i < num; i++) {
-            languageName[i] = request.getParameter("languageName");
-            scoreOutof100[i] = Integer.parseInt(request.getParameter("scoreOutof100"));
+            System.out.println("languageName" + i + " = " + request.getParameter("languageName" + i));
+            languageName[i] = request.getParameter("languageName" + i);
+            scoreOutof100[i] = Integer.parseInt(request.getParameter("scoreOutof100" + i));
         }
 
         JSONObject employeeDetails = new JSONObject();
